@@ -19,7 +19,7 @@ else
 fi
 
 # Configuration
-LFS_VERSION="${LFS_VERSION:-13.1}"
+LFS_VERSION="${LFS_VERSION:-13.1-systemd}"
 LFS_MIRROR="${LFS_MIRROR:-https://www.linuxfromscratch.org}"
 SOURCES_DIR="/sources"
 MAX_RETRIES=5
