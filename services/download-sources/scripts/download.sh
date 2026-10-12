@@ -3,7 +3,7 @@ set -euo pipefail
 
 # =============================================================================
 # EasyLFS Download Sources Script
-# Downloads all LFS packages and patches for LFS 12.4 (SysVinit)
+# Downloads all LFS packages and patches for LFS 13.1 (systemd)
 # =============================================================================
 
 # Load common utilities
@@ -19,13 +19,13 @@ else
 fi
 
 # Configuration
-LFS_VERSION="${LFS_VERSION:-12.4}"
+LFS_VERSION="${LFS_VERSION:-13.1}"
 LFS_MIRROR="${LFS_MIRROR:-https://www.linuxfromscratch.org}"
 SOURCES_DIR="/sources"
-MAX_RETRIES=3
+MAX_RETRIES=5
 RETRY_DELAY=5
 PARALLEL_DOWNLOADS="${PARALLEL_DOWNLOADS:-6}"  # Number of parallel downloads
-DOWNLOAD_TIMEOUT=60  # Timeout for slow connections (seconds)
+DOWNLOAD_TIMEOUT=120  # Timeout for slow connections (seconds)
 MIN_SPEED=50000     # Minimum speed: 50KB/s (will retry if slower)
 
 # Note: LFS for download-sources points to /sources since we don't have /lfs yet

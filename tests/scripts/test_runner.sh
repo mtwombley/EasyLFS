@@ -21,7 +21,7 @@ log_error() { echo -e "${RED}[ERROR]${NC} $1"; }
 # Display banner
 echo "=============================================="
 echo "  EasyLFS Automated Test Suite"
-echo "  LFS 12.4 (SystemD) Pipeline Validation"
+echo "  LFS 13.1 (systemd) Pipeline Validation"
 echo "=============================================="
 echo ""
 

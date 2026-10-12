@@ -21,7 +21,7 @@ log_pass() { echo -e "${GREEN}[PASS]${NC} $1"; }
 log_fail() { echo -e "${RED}[FAIL]${NC} $1"; }
 
 # Configuration
-IMAGE_PATH="${1:-/workspace/lfs-12.4-sysv.img}"
+IMAGE_PATH="${1:-/workspace/lfs-13.1-systemd.img}"
 TEST_TIMEOUT=60
 QEMU_MEMORY="2G"
 QEMU_CPUS="2"

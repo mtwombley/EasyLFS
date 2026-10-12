@@ -128,17 +128,17 @@ echo ""
 log_test "Validating lfs-dist volume..."
 
 if docker volume inspect easylfs_lfs-dist >/dev/null 2>&1; then
-    if docker run --rm -v easylfs_lfs-dist:/v alpine test -f /v/lfs-12.4-sysv.img.gz; then
-        log_pass "Disk image found (lfs-12.4-sysv.img.gz)"
+    if docker run --rm -v easylfs_lfs-dist:/v alpine test -f /v/lfs-13.1-systemd.img.gz; then
+        log_pass "Disk image found (lfs-13.1-systemd.img.gz)"
 
-        size=$(docker run --rm -v easylfs_lfs-dist:/v alpine stat -c%s /v/lfs-12.4-sysv.img.gz)
+        size=$(docker run --rm -v easylfs_lfs-dist:/v alpine stat -c%s /v/lfs-13.1-systemd.img.gz)
         log_pass "Image size: $(($size / 1024 / 1024))MB"
     else
         log_skip "Disk image not found (run package-image)"
     fi
 
-    if docker run --rm -v easylfs_lfs-dist:/v alpine test -f /v/lfs-12.4-sysv.tar.gz; then
-        log_pass "System tarball found"
+    if docker run --rm -v easylfs_lfs-dist:/v alpine test -f /v/lfs-13.1-systemd.tar.gz; then
+        log_pass "System tarball found (lfs-13.1-systemd.tar.gz)"
     else
         log_skip "System tarball not found"
     fi

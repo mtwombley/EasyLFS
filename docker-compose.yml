@@ -1,5 +1,5 @@
 # EasyLFS - Easy Linux From Scratch
-# Docker Compose pipeline for building LFS 12.4 (SysVinit)
+# Docker Compose pipeline for building LFS 13.1 (systemd)
 #
 # Usage: Run services sequentially with:
 #   docker-compose run --rm <service-name>
@@ -20,7 +20,7 @@ services:
       - lfs-sources:/sources
       - lfs-logs:/logs
     environment:
-      - LFS_VERSION=12.4
+      - LFS_VERSION=13.1
       - LFS_MIRROR=https://www.linuxfromscratch.org
       - SERVICE_NAME=download-sources
     restart: "no"
@@ -45,7 +45,7 @@ services:
     environment:
       - LFS=/lfs
       - LFS_TGT=x86_64-lfs-linux-gnu
-      - MAKEFLAGS=-j4
+      - MAKEFLAGS=-j12
       - LC_ALL=POSIX
       - SERVICE_NAME=build-toolchain
     restart: "no"
@@ -75,7 +75,7 @@ services:
       - lfs-logs:/logs
     environment:
       - LFS=/lfs
-      - MAKEFLAGS=-j4
+      - MAKEFLAGS=-j12
       - LC_ALL=POSIX
       - SERVICE_NAME=build-basesystem
     restart: "no"
@@ -125,7 +125,7 @@ services:
       - lfs-logs:/logs
     environment:
       - LFS=/lfs
-      - MAKEFLAGS=-j4
+      - MAKEFLAGS=-j12
       - KERNEL_VERSION=6.12.6
       - SERVICE_NAME=build-kernel
     restart: "no"
@@ -151,7 +151,7 @@ services:
       - /dev:/dev  # Mount host /dev for loop device access
     environment:
       - LFS=/lfs
-      - IMAGE_NAME=lfs-12.4-sysv
+      - IMAGE_NAME=lfs-13.1-systemd
       - IMAGE_SIZE=5120  # Size in MB (5GB for final system - actual usage ~4.0GB)
       - SERVICE_NAME=package-image
     restart: "no"
@@ -192,7 +192,7 @@ services:
     volumes:
       - lfs-dist:/lfs-dist
     environment:
-      - IMAGE_NAME=lfs-12.4-sysv
+      - IMAGE_NAME=lfs-13.1-systemd
       - WEB_TERMINAL_PORT=${WEB_TERMINAL_PORT:-7681}
     restart: "no"
 
@@ -210,7 +210,7 @@ services:
     volumes:
       - lfs-dist:/lfs-dist
     environment:
-      - IMAGE_NAME=lfs-12.4-sysv
+      - IMAGE_NAME=lfs-13.1-systemd
       - WEB_SCREEN_PORT=${WEB_SCREEN_PORT:-6080}
       - VNC_PORT=5900
     restart: "no"

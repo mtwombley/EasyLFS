@@ -169,7 +169,7 @@ if docker compose run --rm package-image; then
     log_pass "package-image completed in ${minutes}m"
 
     # Validate
-    if docker run --rm -v easylfs_lfs-dist:/dist alpine test -f /dist/lfs-12.4-sysv.img.gz; then
+    if docker run --rm -v easylfs_lfs-dist:/dist alpine test -f /dist/lfs-13.1-systemd.img.gz; then
         log_pass "Bootable image created"
     else
         log_fail "Bootable image not found"

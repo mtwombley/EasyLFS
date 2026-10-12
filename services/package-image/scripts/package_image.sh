@@ -8,7 +8,7 @@ set -euo pipefail
 # =============================================================================
 
 export LFS="${LFS:-/lfs}"
-export IMAGE_NAME="${IMAGE_NAME:-lfs-12.4-sysv}"
+export IMAGE_NAME="${IMAGE_NAME:-lfs-13.1-systemd}"
 export IMAGE_SIZE="${IMAGE_SIZE:-2048}"  # Size in MB
 
 DIST_DIR="/dist"
@@ -228,15 +228,15 @@ set timeout_style=menu
 insmod ext2
 set root=(hd0,1)
 
-menuentry "LFS 12.4 (Minimal)" {
+menuentry "LFS 13.1 (Minimal)" {
     linux /boot/vmlinuz root=/dev/sda1 ro net.ifnames=0 biosdevname=0 console=tty0 console=ttyS0,115200n8
 }
 
-menuentry "LFS 12.4 (Verbose Boot)" {
+menuentry "LFS 13.1 (Verbose Boot)" {
     linux /boot/vmlinuz root=/dev/sda1 ro net.ifnames=0 biosdevname=0 console=tty0 console=ttyS0,115200n8 debug loglevel=7
 }
 
-menuentry "LFS 12.4 (Recovery Mode)" {
+menuentry "LFS 13.1 (Recovery Mode)" {
     linux /boot/vmlinuz root=/dev/sda1 rw single net.ifnames=0 biosdevname=0 console=tty0 console=ttyS0,115200n8
 }
 EOF
@@ -346,7 +346,7 @@ Usage:
    tar -xzf ${IMAGE_NAME}.tar.gz -C /path/to/rootfs
 
 System Info:
-- LFS Version: 12.4 (SysVinit)
+- LFS Version: 13.1 (systemd)
 - Kernel: $(cat $LFS/boot/config-* 2>/dev/null | grep "^# Linux" | head -1 || echo "Unknown")
 - Root Login: root (no password set)
 

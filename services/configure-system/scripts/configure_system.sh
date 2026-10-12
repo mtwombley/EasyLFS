@@ -271,9 +271,9 @@ EOF
         log_info "✓ Enabled SHA-512 password encryption"
     fi
 
-    # Default password: "lfs" (SHA-512 hash with salt "lfs12.4")
+    # Default password: "lfs" (SHA-512 hash with salt "lfs13.1")
     # Users should change this after first login with: passwd root
-    ROOT_PASSWORD_HASH='$6$lfs12.4$ZMkKaNupdspxqvTCf/tUTE6jDrI/Uctm4Srhck7svUxIlHt/364RrIner1zclJnsC0ECppp61rijU630uq7rT0'
+    ROOT_PASSWORD_HASH='$6$lfs13.1$ZMkKaNupdspxqvTCf/tUTE6jDrI/Uctm4Srhck7svUxIlHt/364RrIner1zclJnsC0ECppp61rijU630uq7rT0'
 
     if [ -f "$LFS/etc/shadow" ]; then
         # Replace root's password hash in existing shadow file
