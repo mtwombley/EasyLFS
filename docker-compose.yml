@@ -20,7 +20,7 @@ services:
       - lfs-sources:/sources
       - lfs-logs:/logs
     environment:
-      - LFS_VERSION=13.1
+      - LFS_VERSION=13.1-systemd
       - LFS_MIRROR=https://www.linuxfromscratch.org
       - SERVICE_NAME=download-sources
     restart: "no"
