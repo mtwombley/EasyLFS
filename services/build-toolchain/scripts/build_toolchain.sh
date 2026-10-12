@@ -159,6 +159,7 @@ build_binutils_pass1() {
                  --disable-nls \
                  --enable-gprofng=no \
                  --disable-werror \
+                 --enable-new-dtags \
                  --enable-default-hash-style=gnu
 
     make $MAKEFLAGS
@@ -206,12 +207,13 @@ build_gcc_pass1() {
     ../configure \
         --target=$LFS_TGT \
         --prefix=$TOOLS_DIR \
-        --with-glibc-version=2.42 \
+        --with-glibc-version=2.44 \
         --with-sysroot=$LFS \
         --with-newlib \
         --without-headers \
         --enable-default-pie \
         --enable-default-ssp \
+        --disable-fixincludes \
         --disable-nls \
         --disable-shared \
         --disable-multilib \
@@ -297,7 +299,9 @@ build_glibc() {
 
     # Apply patch if exists
     patch -Np1 -i $SOURCES_DIR/glibc-*-fhs-1.patch 2>/dev/null || true
-
+    
+    patch -Np1 -i $SOURCES_DIR/glibc-2.44-upstream_fixes-3.patch 2>/dev/null || true
+    
     mkdir -v build
     cd build
 
@@ -307,10 +311,10 @@ build_glibc() {
         --prefix=/usr \
         --host=$LFS_TGT \
         --build=$(../scripts/config.guess) \
-        --enable-kernel=4.19 \
-        --with-headers=$LFS/usr/include \
         --disable-nscd \
-        libc_cv_slibdir=/usr/lib
+        libc_cv_slibdir=/usr/lib \
+        --enable-kernel=5.10
+        
 
     make $MAKEFLAGS
     make DESTDIR=$LFS install
@@ -320,9 +324,14 @@ build_glibc() {
 
     # Sanity check
     log_info "Testing toolchain..."
-    echo 'int main(){}' | $LFS_TGT-gcc -xc -
-    readelf -l a.out | grep ld-linux
-    rm -v a.out
+    echo 'int main(){}' | $LFS_TGT-gcc -x c - -v -Wl,--verbose &> dummy.log
+    readelf -l a.out | grep ': /lib'
+    grep -E -o "$LFS/lib.*/S?crt[1in].*succeeded" dummy.log
+    grep -B3 "^ $LFS/usr/include" dummy.log
+    grep 'SEARCH.*/usr/lib' dummy.log |sed 's|; |\n|g'
+    grep "/lib.*/libc.so.6 " dummy.log
+
+    rm -v a.out dummy.log
 
     cd "$BUILD_DIR"
     rm -rf glibc-*/
@@ -351,11 +360,12 @@ build_libstdcxx_pass1() {
     ../libstdc++-v3/configure \
         --host=$LFS_TGT \
         --build=$(../config.guess) \
+        CXX=$LFS_TGT-gcc           \
         --prefix=/usr \
         --disable-multilib \
         --disable-nls \
         --disable-libstdcxx-pch \
-        --with-gxx-include-dir=/tools/$LFS_TGT/include/c++/15.2.0
+        --with-gxx-include-dir=/tools/$LFS_TGT/include/c++/16.2.0
 
     make $MAKEFLAGS
     make DESTDIR=$LFS install
@@ -400,6 +410,7 @@ build_chapter6_tools() {
           ../configure
           make -C include
           make -C progs tic
+          install progs/tic $LFS/tools/bin
         popd
 
         ./configure --prefix=/usr \
@@ -412,7 +423,8 @@ build_chapter6_tools() {
                     --with-cxx-shared \
                     --without-debug \
                     --without-ada \
-                    --disable-stripping
+                    --disable-stripping \
+                    AWK=gawk
 
         make $MAKEFLAGS
         make DESTDIR=$LFS TIC_PATH=$(pwd)/build/progs/tic install
