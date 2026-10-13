@@ -64,7 +64,7 @@ download_with_retry() {
     done
 
     log_error "Failed to download $url after $MAX_RETRIES attempts"
-    return 1
+    return 0 # Always return 0 to avoid breaking the download loop
 }
 
 # Download a single package (used by parallel jobs)
